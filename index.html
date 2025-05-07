@@ -106,3 +106,42 @@
   <div class="checklist">
     <h3>📋 Checklist Kebutuhan</h3>
     <div class="checklist-columns">
+      <div class="checklist-column">
+        <h4>🧍 Daftar Pribadi</h4>
+        <ul>
+          <li><label><input type="checkbox"> Baju ganti + jaket hangat</label></li>
+          <li><label><input type="checkbox"> Sarung & baju putih (dresscode)</label></li>
+          <li><label><input type="checkbox"> Air minum pribadi</label></li>
+          <li><label><input type="checkbox"> Peralatan makan (piring, sendok)</label></li>
+          <li><label><input type="checkbox"> Obat pribadi</label></li>
+          <li><label><input type="checkbox"> Alat mandi & perlengkapan shalat</label></li>
+          <li><label><input type="checkbox"> Sleeping bag / selimut</label></li>
+        </ul>
+      </div>
+      <div class="checklist-column">
+        <h4>👥 Daftar Kelompok</h4>
+        <ul>
+          <li><label><input type="checkbox"> Tenda (cukup untuk 7 orang)</label></li>
+          <li><label><input type="checkbox"> Tikar / alas tidur</label></li>
+          <li><label><input type="checkbox"> Gas portable & kompor</label></li>
+          <li><label><input type="checkbox"> Wajan, pisau, alat masak</label></li>
+          <li><label><input type="checkbox"> Bahan bakar untuk bebakaran</label></li>
+          <li><label><input type="checkbox"> Alat kebersihan (sapu, kantong sampah)</label></li>
+          <li><label><input type="checkbox"> P3K</label></li>
+          <li><label><input type="checkbox"> Banner & alat dokumentasi (kamera, HP)</label></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.querySelectorAll('.checklist li').forEach(item => {
+      item.addEventListener('click', () => {
+        const checkbox = item.querySelector('input[type="checkbox"]');
+        checkbox.checked = !checkbox.checked;
+        item.classList.toggle('checked');
+      });
+    });
+  </script>
+</body>
+</html>
