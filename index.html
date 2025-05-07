@@ -111,7 +111,7 @@
 
   // Fungsi untuk membaca file JSON yang ada (misalnya dari file data.json)
   function loadChecklistData() {
-    fetch('data.json') // Pastikan file data.json ada di path yang benar
+    fetch('checklist.json') // Pastikan file data.json ada di path yang benar
       .then(response => response.json())
       .then(data => {
         if (data.personal && data.group) {
