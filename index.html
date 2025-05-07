@@ -164,7 +164,7 @@
 
   // Fungsi untuk membaca file JSON dari GitHub
   function loadChecklistData() {
-    fetch('https://raw.githubusercontent.com/pesmaRH/rh-rihlah-4.io/main/cheklist.json') // Ganti URL dengan URL raw GitHub Anda
+    fetch('https://github.com/pesmaRH/rh-rihlah-4.io/blob/main/checklist.json') // Ganti URL dengan URL raw GitHub Anda
       .then(response => response.json())
       .then(data => {
         if (data.personal && data.group) {
