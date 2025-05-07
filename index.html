@@ -145,14 +145,13 @@
   <button onclick="updateChecklist()">💾 Simpan Data</button>
 
   <script>
-    const GIST_ID = 'GIST_ID_KAMU'; // Ganti dengan ID Gist kamu
+    const GIST_ID = '5b6b01565459f598a57514773000be84'; // Ganti dengan ID Gist kamu
     const GIST_FILENAME = 'checklist.json';
-    const GITHUB_TOKEN = 'ghp_xxx'; // Ganti dengan token kamu (jangan sebar!)
+    const GITHUB_TOKEN = 'ghp_pesmaRH'; // Ganti dengan token kamu (jangan sebar!)
 
     let checklistArray = [];
-
     async function loadChecklist() {
-      const rawUrl = `https://gist.githubusercontent.com/USERNAME/${GIST_ID}/raw/${GIST_FILENAME}`;
+      const rawUrl = `https://gist.githubusercontent.com/pesmaRH/${GIST_ID}/raw/${GIST_FILENAME}`;
       try {
         const res = await fetch(rawUrl);
         const data = await res.json();
