@@ -1,1 +1,22 @@
+{
+  "personal": [
+    { "item": "Baju ganti + jaket hangat", "checked": false },
+    { "item": "Sarung & baju putih (dresscode)", "checked": false },
+    { "item": "Air minum pribadi", "checked": false },
+    { "item": "Peralatan makan (piring, sendok)", "checked": false },
+    { "item": "Obat pribadi", "checked": false },
+    { "item": "Alat mandi & perlengkapan shalat", "checked": false },
+    { "item": "Sleeping bag / selimut", "checked": false }
+  ],
+  "group": [
+    { "item": "Tenda (cukup untuk 7 orang)", "checked": false },
+    { "item": "Tikar / alas tidur", "checked": false },
+    { "item": "Gas portable & kompor", "checked": false },
+    { "item": "Wajan, pisau, alat masak", "checked": false },
+    { "item": "Bahan bakar untuk bebakaran", "checked": false },
+    { "item": "Alat kebersihan (sapu, kantong sampah)", "checked": false },
+    { "item": "P3K", "checked": false },
+    { "item": "Banner & alat dokumentasi (kamera, HP)", "checked": false }
+  ]
+}
 
