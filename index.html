@@ -177,22 +177,43 @@
     });
   });
 
-  // Simpan status ke localStorage saat label diklik
+  // Simpan status ke localStorage dan ekspor ke file saat label diklik
   checklistItems.forEach((label, index) => {
     label.addEventListener('click', (e) => {
       e.preventDefault();
 
       const checkbox = label.querySelector('input[type="checkbox"]');
       checkbox.checked = !checkbox.checked;
-
-      // Toggle tampilan
       label.parentElement.classList.toggle('checked');
 
-      // Simpan ke localStorage
+      // Simpan status individu ke localStorage
       localStorage.setItem(`checklist-${index}`, checkbox.checked);
+
+      // Simpan seluruh status ke array & file
+      saveChecklistToFile();
     });
   });
+
+  function saveChecklistToFile() {
+    const statuses = Array.from(checklistItems).map((label, index) => {
+      const checkbox = label.querySelector('input[type="checkbox"]');
+      return checkbox.checked;
+    });
+
+    const blob = new Blob([JSON.stringify(statuses)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "checklist-rihlah.json";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+
+    URL.revokeObjectURL(url);
+  }
 </script>
+
 
 </body>
 </html>
