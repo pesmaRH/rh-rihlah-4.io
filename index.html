@@ -140,53 +140,75 @@
   </div>
 
   
-<script>
-  // Fungsi untuk menghasilkan checklist dari data JSON
-  function generateChecklist(listId, checklist) {
-    const listElement = document.getElementById(listId);
-    listElement.innerHTML = ''; // Hapus daftar checklist sebelumnya
-    checklist.forEach((item, index) => {
-      const listItem = document.createElement('li');
-      listItem.innerHTML = `
-        <label>
-          <input type="checkbox" ${item.checked ? 'checked' : ''} data-index="${index}">
-          ${item.item}
-        </label>
-      `;
-      listItem.addEventListener('click', function() {
-        item.checked = !item.checked;
-        localStorage.setItem(`${listId}-item-${index}`, item.checked); // Simpan status ke localStorage
-        listItem.classList.toggle('checked', item.checked);
+  <h1>Checklist Rihlah</h1>
+  <ul id="checklist"></ul>
+  <button onclick="updateChecklist()">💾 Simpan Data</button>
+
+  <script>
+    const GIST_ID = 'GIST_ID_KAMU'; // Ganti dengan ID Gist kamu
+    const GIST_FILENAME = 'checklist.json';
+    const GITHUB_TOKEN = 'ghp_xxx'; // Ganti dengan token kamu (jangan sebar!)
+
+    let checklistArray = [];
+
+    async function loadChecklist() {
+      const rawUrl = `https://gist.githubusercontent.com/USERNAME/${GIST_ID}/raw/${GIST_FILENAME}`;
+      try {
+        const res = await fetch(rawUrl);
+        const data = await res.json();
+        checklistArray = data.checklist;
+        renderChecklist();
+      } catch (err) {
+        alert("Gagal memuat data dari Gist.");
+        console.error(err);
+      }
+    }
+
+    function renderChecklist() {
+      const ul = document.getElementById('checklist');
+      ul.innerHTML = '';
+      checklistArray.forEach((item, index) => {
+        const li = document.createElement('li');
+        li.className = item ? 'checked' : '';
+        li.innerHTML = `<label><input type="checkbox" ${item ? 'checked' : ''} onchange="toggle(${index})"> Item ${index + 1}</label>`;
+        ul.appendChild(li);
       });
-      listElement.appendChild(listItem);
-    });
-  }
+    }
 
-  // Fungsi untuk membaca file JSON dari GitHub
-  function loadChecklistData() {
-    fetch('https://gist.githubusercontent.com/pesmaRH/5b6b01565459f598a57514773000be84/raw/8e1d9513d0821f5cafabf456035b0e1934bc8ac7/checklist.json') // Ganti URL dengan URL raw GitHub Anda
-      .then(response => response.json())
-      .then(data => {
-        if (data.personal && data.group) {
-          // Generate checklist untuk kedua kategori
-          generateChecklist('personal-checklist', data.personal);
-          generateChecklist('group-checklist', data.group);
+    function toggle(index) {
+      checklistArray[index] = !checklistArray[index];
+      renderChecklist();
+    }
 
-          // Simpan data ke localStorage (opsional, untuk akses lebih cepat)
-          localStorage.setItem('checklistData', JSON.stringify(data));
-        } else {
-          alert('Format file JSON tidak sesuai.');
+    async function updateChecklist() {
+      const apiUrl = `https://api.github.com/gists/${GIST_ID}`;
+      const updatedContent = {
+        files: {
+          [GIST_FILENAME]: {
+            content: JSON.stringify({ checklist: checklistArray }, null, 2)
+          }
         }
-      })
-      .catch(error => {
-        console.error('Gagal memuat file JSON:', error);
-        alert('Terjadi kesalahan saat memuat data.');
-      });
-  }
+      };
 
-  // Panggil fungsi untuk memuat data saat halaman dimuat
-  window.addEventListener('DOMContentLoaded', loadChecklistData);
-</script>
+      const res = await fetch(apiUrl, {
+        method: 'PATCH',
+        headers: {
+          'Authorization': `Bearer ${GITHUB_TOKEN}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(updatedContent)
+      });
+
+      if (res.ok) {
+        alert('Checklist berhasil diperbarui di Gist!');
+      } else {
+        alert('Gagal menyimpan ke Gist.');
+        console.error(await res.text());
+      }
+    }
+
+    loadChecklist();
+  </script>
 
 </body>
 </html>
