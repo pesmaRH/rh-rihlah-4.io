@@ -109,9 +109,9 @@
     });
   }
 
-  // Fungsi untuk membaca file JSON yang ada (misalnya dari file data.json)
+  // Fungsi untuk membaca file JSON dari GitHub
   function loadChecklistData() {
-    fetch('checklist.json') // Pastikan file data.json ada di path yang benar
+    fetch('https://raw.githubusercontent.com/pesmaRH/rh-rihlah-4.io/main/cheklist.json') // Ganti URL dengan URL raw GitHub Anda
       .then(response => response.json())
       .then(data => {
         if (data.personal && data.group) {
