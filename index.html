@@ -36,12 +36,30 @@
     th {
       background-color: #e0f2f1;
     }
+    .checklist-columns {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .checklist-column {
+      flex: 1;
+      min-width: 300px;
+    }
     .checklist ul {
       list-style-type: none;
       padding-left: 0;
     }
     .checklist li {
       margin-bottom: 8px;
+      transition: transform 0.2s ease;
+      cursor: pointer;
+    }
+    .checklist li:hover {
+      transform: scale(1.05);
+    }
+    .checklist li.checked {
+      text-decoration: line-through;
+      color: #888;
     }
     .checklist input[type="checkbox"] {
       margin-right: 10px;
@@ -74,7 +92,7 @@
       <tr><th>Waktu</th><th>Kegiatan</th><th>Keterangan</th><th>PJ</th></tr>
       <tr><td>04.00 – 04.30</td><td>Bangun & persiapan</td><td>Menjelang Subuh</td><td>Acara</td></tr>
       <tr><td>04.30 – 05.00</td><td>Sholat Subuh</td><td>Berjamaah + Kultum</td><td>—</td></tr>
-      <tr><td>05.00 – 06.00</td><td>Jalan pagi</td><td>Tadabbur alam</td><td>Acara</td></tr>
+      <tr><td>05.00 – 06.00</td><td>Tajammu'</td><td>Evaluasi & refleksi pagi</td><td>Acara</td></tr>
       <tr><td>06.00 – 07.00</td><td>Sarapan ringan</td><td>Futur Shabah</td><td>Konsumsi</td></tr>
       <tr><td>07.00 – 08.00</td><td>Bersih-bersih & packing</td><td>Fardhu Kifayah Circle</td><td>Perkap</td></tr>
       <tr><td>08.00 – 09.30</td><td>Perjalanan pulang</td><td>Evaluasi selama perjalanan</td><td>Acara</td></tr>
@@ -83,21 +101,42 @@
   </div>
 
   <div class="checklist">
-    <h3>📋 Checklist Kebutuhan & Alat</h3>
-    <ul>
-      <li><input type="checkbox"> Tenda (cukup untuk 7 orang)</li>
-      <li><input type="checkbox"> Tikar / alas tidur</li>
-      <li><input type="checkbox"> Sleeping bag / selimut</li>
-      <li><input type="checkbox"> Baju ganti + jaket hangat</li>
-      <li><input type="checkbox"> Peralatan makan (piring, sendok)</li>
-      <li><input type="checkbox"> Air minum pribadi</li>
-      <li><input type="checkbox"> Obat pribadi & P3K</li>
-      <li><input type="checkbox"> Alat masak: gas portable, wajan, pisau</li>
-      <li><input type="checkbox"> Bahan bakar untuk bebakaran</li>
-      <li><input type="checkbox"> Alat kebersihan (sapu, kantong sampah)</li>
-      <li><input type="checkbox"> Sarung & baju putih (dresscode)</li>
-      <li><input type="checkbox"> Banner & alat dokumentasi (kamera, HP)</li>
-    </ul>
+    <h3>📋 Checklist Kebutuhan</h3>
+    <div class="checklist-columns">
+      <div class="checklist-column">
+        <h4>🧍 Daftar Pribadi</h4>
+        <ul>
+          <li><input type="checkbox"> Baju ganti + jaket hangat</li>
+          <li><input type="checkbox"> Sarung & baju putih (dresscode)</li>
+          <li><input type="checkbox"> Air minum pribadi</li>
+          <li><input type="checkbox"> Peralatan makan (piring, sendok)</li>
+          <li><input type="checkbox"> Obat pribadi</li>
+          <li><input type="checkbox"> Alat mandi & perlengkapan shalat</li>
+          <li><input type="checkbox"> Sleeping bag / selimut</li>
+        </ul>
+      </div>
+      <div class="checklist-column">
+        <h4>👥 Daftar Kelompok</h4>
+        <ul>
+          <li><input type="checkbox"> Tenda (cukup untuk 7 orang)</li>
+          <li><input type="checkbox"> Tikar / alas tidur</li>
+          <li><input type="checkbox"> Gas portable & kompor</li>
+          <li><input type="checkbox"> Wajan, pisau, alat masak</li>
+          <li><input type="checkbox"> Bahan bakar untuk bebakaran</li>
+          <li><input type="checkbox"> Alat kebersihan (sapu, kantong sampah)</li>
+          <li><input type="checkbox"> P3K</li>
+          <li><input type="checkbox"> Banner & alat dokumentasi (kamera, HP)</li>
+        </ul>
+      </div>
+    </div>
   </div>
+
+  <script>
+    document.querySelectorAll('.checklist li').forEach(item => {
+      item.addEventListener('click', () => {
+        item.classList.toggle('checked');
+      });
+    });
+  </script>
 </body>
 </html>
