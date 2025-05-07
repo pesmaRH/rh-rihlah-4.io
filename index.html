@@ -161,18 +161,37 @@
     </ul>
   </div>
 
-  <script>
-    document.querySelectorAll('.checklist li label').forEach(label => {
-      label.addEventListener('click', (e) => {
-        e.preventDefault(); // Hindari checkbox toggle default
+<script>
+  const checklistItems = document.querySelectorAll('.checklist li label');
 
-        const checkbox = label.querySelector('input[type="checkbox"]');
-        checkbox.checked = !checkbox.checked;
-
-        // Toggle class 'checked' ke elemen <li> (parent-nya label)
-        label.parentElement.classList.toggle('checked');
-      });
+  // Load status dari localStorage saat halaman dimuat
+  window.addEventListener('DOMContentLoaded', () => {
+    checklistItems.forEach((label, index) => {
+      const checkbox = label.querySelector('input[type="checkbox"]');
+      const isChecked = localStorage.getItem(`checklist-${index}`) === 'true';
+      checkbox.checked = isChecked;
+      if (isChecked) {
+        label.parentElement.classList.add('checked');
+      }
     });
-  </script>
+  });
+
+  // Simpan status ke localStorage saat label diklik
+  checklistItems.forEach((label, index) => {
+    label.addEventListener('click', (e) => {
+      e.preventDefault();
+
+      const checkbox = label.querySelector('input[type="checkbox"]');
+      checkbox.checked = !checkbox.checked;
+
+      // Toggle tampilan
+      label.parentElement.classList.toggle('checked');
+
+      // Simpan ke localStorage
+      localStorage.setItem(`checklist-${index}`, checkbox.checked);
+    });
+  });
+</script>
+
 </body>
 </html>
