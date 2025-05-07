@@ -20,18 +20,21 @@
       border-radius: 8px;
       padding: 20px;
       margin: 20px auto;
-      max-width: 800px;
+      max-width: 100%;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
     table {
       width: 100%;
       border-collapse: collapse;
       margin-top: 10px;
+      overflow-x: auto;
+      display: block;
     }
     th, td {
       border: 1px solid #ccc;
       padding: 8px;
       text-align: left;
+      white-space: nowrap;
     }
     th {
       background-color: #e0f2f1;
@@ -66,6 +69,14 @@
     .checklist input[type="checkbox"] {
       margin-right: 10px;
       pointer-events: none;
+    }
+    @media (max-width: 768px) {
+      table {
+        font-size: 14px;
+      }
+      th, td {
+        padding: 6px;
+      }
     }
   </style>
 </head>
@@ -135,18 +146,13 @@
   </div>
 
   <script>
-  document.querySelectorAll('.checklist li label').forEach(label => {
-    label.addEventListener('click', (e) => {
-      e.preventDefault(); // Hindari checkbox toggle default
-
-      const checkbox = label.querySelector('input[type="checkbox"]');
-      checkbox.checked = !checkbox.checked;
-
-      // Toggle class 'checked' ke elemen <li> (parent-nya label)
-      label.parentElement.classList.toggle('checked');
+    document.querySelectorAll('.checklist li').forEach(item => {
+      item.addEventListener('click', () => {
+        const checkbox = item.querySelector('input[type="checkbox"]');
+        checkbox.checked = !checkbox.checked;
+        item.classList.toggle('checked');
+      });
     });
-  });
-</script>
-
+  </script>
 </body>
 </html>
