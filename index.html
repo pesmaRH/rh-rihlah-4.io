@@ -147,11 +147,11 @@
   <script>
     const GIST_ID = '5b6b01565459f598a57514773000be84'; // Ganti dengan ID Gist kamu
     const GIST_FILENAME = 'checklist.json';
-    const GITHUB_TOKEN = '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'; // Ganti dengan token kamu (jangan sebar!)
+    const GITHUB_TOKEN = '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'; // Ganti dengan token kamu (jangan sebar!)
 
     let checklistArray = [];
     async function loadChecklist() {
-      const rawUrl = `https://gist.githubusercontent.com/pesmaRH/${GIST_ID}/raw/${GIST_FILENAME}`;
+      const rawUrl = `https://gist.githubusercontent.com/pesmaRH/${GIST_ID}/raw/8e1d9513d0821f5cafabf456035b0e1934bc8ac7/${GIST_FILENAME}`;
       try {
         const res = await fetch(rawUrl);
         const data = await res.json();
