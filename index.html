@@ -165,7 +165,7 @@
 <script>
   const checklistItems = document.querySelectorAll('.checklist li label');
 
-  // Load status dari localStorage saat halaman dimuat
+  // Load dari localStorage saat halaman dimuat
   window.addEventListener('DOMContentLoaded', () => {
     checklistItems.forEach((label, index) => {
       const checkbox = label.querySelector('input[type="checkbox"]');
@@ -177,41 +177,43 @@
     });
   });
 
-  // Simpan status ke localStorage dan ekspor ke file saat label diklik
+  // Event: Klik checklist (ubah status dan simpan ke localStorage)
   checklistItems.forEach((label, index) => {
     label.addEventListener('click', (e) => {
       e.preventDefault();
-
       const checkbox = label.querySelector('input[type="checkbox"]');
       checkbox.checked = !checkbox.checked;
       label.parentElement.classList.toggle('checked');
-
-      // Simpan status individu ke localStorage
       localStorage.setItem(`checklist-${index}`, checkbox.checked);
-
-      // Simpan seluruh status ke array & file
-      saveChecklistToFile();
     });
   });
 
-  function saveChecklistToFile() {
-    const statuses = Array.from(checklistItems).map((label, index) => {
-      const checkbox = label.querySelector('input[type="checkbox"]');
-      return checkbox.checked;
-    });
+  // Event: Upload file JSON
+  document.getElementById('loadJson').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    if (!file) return;
 
-    const blob = new Blob([JSON.stringify(statuses)], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "checklist-rihlah.json";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-
-    URL.revokeObjectURL(url);
-  }
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      try {
+        const data = JSON.parse(e.target.result);
+        if (data.checklist && Array.isArray(data.checklist)) {
+          data.checklist.forEach((checked, index) => {
+            const label = checklistItems[index];
+            const checkbox = label.querySelector('input[type="checkbox"]');
+            checkbox.checked = checked;
+            label.parentElement.classList.toggle('checked', checked);
+            localStorage.setItem(`checklist-${index}`, checked);
+          });
+        } else {
+          alert("Format file tidak sesuai.");
+        }
+      } catch (err) {
+        alert("Gagal membaca file JSON.");
+      }
+    };
+    reader.readAsText(file);
+  });
 </script>
 
 
