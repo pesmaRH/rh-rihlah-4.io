@@ -86,14 +86,12 @@
     </div>
   </div>
 
-  <!-- Input untuk memilih file JSON -->
-  <input type="file" id="uploadJson" accept=".json">
   
 <script>
-  // Function to generate checklist list items
+  // Fungsi untuk menghasilkan checklist dari data JSON
   function generateChecklist(listId, checklist) {
     const listElement = document.getElementById(listId);
-    listElement.innerHTML = ''; // Clear the list before adding new items
+    listElement.innerHTML = ''; // Hapus daftar checklist sebelumnya
     checklist.forEach((item, index) => {
       const listItem = document.createElement('li');
       listItem.innerHTML = `
@@ -111,42 +109,30 @@
     });
   }
 
-  // Function to handle JSON file upload and display checklist
-  document.getElementById('uploadJson').addEventListener('change', function(event) {
-    const file = event.target.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      try {
-        const data = JSON.parse(e.target.result);
-        
+  // Fungsi untuk membaca file JSON yang ada (misalnya dari file data.json)
+  function loadChecklistData() {
+    fetch('data.json') // Pastikan file data.json ada di path yang benar
+      .then(response => response.json())
+      .then(data => {
         if (data.personal && data.group) {
           // Generate checklist untuk kedua kategori
           generateChecklist('personal-checklist', data.personal);
           generateChecklist('group-checklist', data.group);
 
-          // Simpan data ke localStorage (optional)
+          // Simpan data ke localStorage (opsional, untuk akses lebih cepat)
           localStorage.setItem('checklistData', JSON.stringify(data));
         } else {
           alert('Format file JSON tidak sesuai.');
         }
-      } catch (err) {
-        alert('Gagal membaca file JSON.');
-      }
-    };
-    reader.readAsText(file);
-  });
+      })
+      .catch(error => {
+        console.error('Gagal memuat file JSON:', error);
+        alert('Terjadi kesalahan saat memuat data.');
+      });
+  }
 
-  // Load checklist status dari localStorage saat halaman dimuat
-  window.addEventListener('DOMContentLoaded', () => {
-    const storedData = localStorage.getItem('checklistData');
-    if (storedData) {
-      const data = JSON.parse(storedData);
-      generateChecklist('personal-checklist', data.personal);
-      generateChecklist('group-checklist', data.group);
-    }
-  });
+  // Panggil fungsi untuk memuat data saat halaman dimuat
+  window.addEventListener('DOMContentLoaded', loadChecklistData);
 </script>
 
 </body>
