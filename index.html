@@ -20,32 +20,29 @@
       border-radius: 8px;
       padding: 20px;
       margin: 20px auto;
-      max-width: 100%;
+      max-width: 800px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
     table {
       width: 100%;
       border-collapse: collapse;
       margin-top: 10px;
-      overflow-x: auto;
-      display: block;
     }
     th, td {
       border: 1px solid #ccc;
       padding: 8px;
       text-align: left;
-      white-space: nowrap;
     }
     th {
       background-color: #e0f2f1;
     }
     .checklist-columns {
       display: flex;
-      gap: 20px;
       flex-wrap: wrap;
+      gap: 20px;
     }
     .checklist-column {
-      flex: 1;
+      flex: 1 1 45%;
       min-width: 300px;
     }
     .checklist ul {
@@ -70,12 +67,13 @@
       margin-right: 10px;
       pointer-events: none;
     }
+    /* Responsif */
     @media (max-width: 768px) {
-      table {
-        font-size: 14px;
+      .checklist-columns {
+        flex-direction: column;
       }
-      th, td {
-        padding: 6px;
+      .checklist-column {
+        flex: 1 1 100%;
       }
     }
   </style>
@@ -106,8 +104,8 @@
       <tr><th>Waktu</th><th>Kegiatan</th><th>Keterangan</th><th>PJ</th></tr>
       <tr><td>04.00 – 04.30</td><td>Bangun & persiapan</td><td>Menjelang Subuh</td><td>Acara</td></tr>
       <tr><td>04.30 – 05.00</td><td>Sholat Subuh</td><td>Berjamaah + Kultum</td><td>—</td></tr>
-      <tr><td>05.00 – 06.00</td><td>Jalan pagi & tadabbur alam (Syuruq Track) 🏞️</td><td>Dzikir alam & refleksi</td><td>Acara</td></tr>
-      <tr><td>06.00 – 07.00</td><td>Tajammu'</td><td>Evaluasi & refleksi pagi </td><td>Konsumsi</td></tr>
+      <tr><td>05.00 – 06.00</td><td>Tajammu'</td><td>Evaluasi & refleksi pagi</td><td>Acara</td></tr>
+      <tr><td>06.00 – 07.00</td><td>Sarapan ringan</td><td>Futur Shabah</td><td>Konsumsi</td></tr>
       <tr><td>07.00 – 08.00</td><td>Bersih-bersih & packing</td><td>Fardhu Kifayah Circle</td><td>Perkap</td></tr>
       <tr><td>08.00 – 09.30</td><td>Perjalanan pulang</td><td>Evaluasi selama perjalanan</td><td>Acara</td></tr>
       <tr><td>Sebelum 11.00</td><td>Tiba di asrama</td><td>Sayonara & dokumentasi</td><td>PDD</td></tr>
@@ -146,17 +144,17 @@
   </div>
 
   <script>
-  document.querySelectorAll('.checklist li label').forEach(label => {
-    label.addEventListener('click', (e) => {
-      e.preventDefault(); // Hindari checkbox toggle default
+    document.querySelectorAll('.checklist li label').forEach(label => {
+      label.addEventListener('click', (e) => {
+        e.preventDefault(); // Hindari checkbox toggle default
 
-      const checkbox = label.querySelector('input[type="checkbox"]');
-      checkbox.checked = !checkbox.checked;
+        const checkbox = label.querySelector('input[type="checkbox"]');
+        checkbox.checked = !checkbox.checked;
 
-      // Toggle class 'checked' ke elemen <li> (parent-nya label)
-      label.parentElement.classList.toggle('checked');
+        // Toggle class 'checked' ke elemen <li> (parent-nya label)
+        label.parentElement.classList.toggle('checked');
+      });
     });
-  });
-</script>
+  </script>
 </body>
 </html>
