@@ -134,14 +134,19 @@
     </div>
   </div>
 
-  <script>
-    document.querySelectorAll('.checklist li').forEach(item => {
-      item.addEventListener('click', () => {
-        const checkbox = item.querySelector('input[type="checkbox"]');
-        checkbox.checked = !checkbox.checked;
-        item.classList.toggle('checked');
-      });
+ <script>
+  document.querySelectorAll('.checklist li label').forEach(label => {
+    label.addEventListener('click', (e) => {
+      e.preventDefault(); // Hindari checkbox toggle default
+
+      const checkbox = label.querySelector('input[type="checkbox"]');
+      checkbox.checked = !checkbox.checked;
+
+      // Toggle class 'checked' ke elemen <li> (parent-nya label)
+      label.parentElement.classList.toggle('checked');
     });
-  </script>
+  });
+</script>
+
 </body>
 </html>
