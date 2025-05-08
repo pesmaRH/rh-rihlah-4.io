@@ -145,13 +145,15 @@
   <button onclick="updateChecklist()">💾 Simpan Data</button>
 
   <script>
-    const GIST_ID = '5b6b01565459f598a57514773000be84'; // Ganti dengan ID Gist kamu
+    const GIST_ID = '5b6b01565459f598a57514773000be84'; // Ganti dengan ID gist kamu
     const GIST_FILENAME = 'checklist.json';
-    const GITHUB_TOKEN = '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'; // Ganti dengan token kamu (jangan sebar!)
+    const GITHUB_USERNAME = 'pesmaRH'; // Ganti dengan username GitHub kamu
+    const GITHUB_TOKEN = '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'; // Ganti dengan token kamu (untuk testing saja)
 
     let checklistArray = [];
+
     async function loadChecklist() {
-      const rawUrl = `https://gist.githubusercontent.com/pesmaRH/${GIST_ID}/raw/8e1d9513d0821f5cafabf456035b0e1934bc8ac7/${GIST_FILENAME}`;
+      const rawUrl = `https://gist.githubusercontent.com/${GITHUB_USERNAME}/${GIST_ID}/raw/${GIST_FILENAME}`;
       try {
         const res = await fetch(rawUrl);
         const data = await res.json();
@@ -177,6 +179,7 @@
     function toggle(index) {
       checklistArray[index] = !checklistArray[index];
       renderChecklist();
+      updateChecklist();
     }
 
     async function updateChecklist() {
@@ -189,20 +192,26 @@
         }
       };
 
-      const res = await fetch(apiUrl, {
-        method: 'PATCH',
-        headers: {
-          'Authorization': `Bearer ${GITHUB_TOKEN}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(updatedContent)
-      });
+      try {
+        const res = await fetch(apiUrl, {
+          method: 'PATCH',
+          headers: {
+            'Authorization': `Bearer ${GITHUB_TOKEN}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(updatedContent)
+        });
 
-      if (res.ok) {
-        alert('Checklist berhasil diperbarui di Gist!');
-      } else {
-        alert('Gagal menyimpan ke Gist.');
-        console.error(await res.text());
+        if (res.ok) {
+          console.log('Checklist berhasil diperbarui di Gist!');
+        } else {
+          const text = await res.text();
+          console.error('Gagal menyimpan ke Gist:', text);
+          alert('Gagal menyimpan ke Gist.');
+        }
+      } catch (err) {
+        console.error(err);
+        alert('Terjadi kesalahan saat menyimpan.');
       }
     }
 
