@@ -144,78 +144,69 @@
   <ul id="checklist"></ul>
   <button onclick="updateChecklist()">💾 Simpan Data</button>
 
-   <script>
-    const GIST_ID = '5b6b01565459f598a57514773000be84'; // Ganti dengan ID gist kamu
-    const GIST_FILENAME = 'checklist.json';
-    const GITHUB_USERNAME = 'pesmaRH'; // Ganti dengan username GitHub kamu
-    const GITHUB_TOKEN = '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'; // Ganti dengan token kamu (untuk testing saja)
+<script>
+const BIN_ID = '681c78778a456b796699b2dd'; // Ganti
+const API_KEY = '$2a$10$rKhIW7PhcobzihoujqnsauMpIhBN9LNRp1vcYkgiHuzrtC.QxM5Ie'; // Ganti
+const BASE_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
 
-    let checklistArray = [];
+let checklistArray = [];
 
-    async function loadChecklist() {
-      const rawUrl = `https://gist.githubusercontent.com/${GITHUB_USERNAME}/${GIST_ID}/raw/${GIST_FILENAME}`;
-      try {
-        const res = await fetch(rawUrl);
-        const data = await res.json();
-        checklistArray = data.checklist;
-        renderChecklist();
-      } catch (err) {
-        alert("Gagal memuat data dari Gist.");
-        console.error(err);
+async function loadChecklist() {
+  try {
+    const res = await fetch(BASE_URL + '/latest', {
+      headers: {
+        'X-Master-Key': API_KEY
       }
+    });
+    const data = await res.json();
+    checklistArray = data.record.checklist;
+    renderChecklist();
+  } catch (err) {
+    alert("Gagal memuat checklist.");
+    console.error(err);
+  }
+}
+
+function renderChecklist() {
+  const ul = document.getElementById('checklist');
+  ul.innerHTML = '';
+  checklistArray.forEach((item, index) => {
+    const li = document.createElement('li');
+    li.className = item ? 'checked' : '';
+    li.innerHTML = `<label><input type="checkbox" ${item ? 'checked' : ''} onchange="toggle(${index})"> Item ${index + 1}</label>`;
+    ul.appendChild(li);
+  });
+}
+
+function toggle(index) {
+  checklistArray[index] = !checklistArray[index];
+  renderChecklist();
+}
+
+async function updateChecklist() {
+  try {
+    const res = await fetch(BASE_URL, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Master-Key': API_KEY
+      },
+      body: JSON.stringify({ checklist: checklistArray })
+    });
+
+    if (res.ok) {
+      alert('Checklist berhasil diperbarui!');
+    } else {
+      alert('Gagal menyimpan checklist.');
+      console.error(await res.text());
     }
+  } catch (err) {
+    alert('Terjadi kesalahan saat menyimpan.');
+    console.error(err);
+  }
+}
 
-    function renderChecklist() {
-      const ul = document.getElementById('checklist');
-      ul.innerHTML = '';
-      checklistArray.forEach((item, index) => {
-        const li = document.createElement('li');
-        li.className = item ? 'checked' : '';
-        li.innerHTML = `<label><input type="checkbox" ${item ? 'checked' : ''} onchange="toggle(${index})"> Item ${index + 1}</label>`;
-        ul.appendChild(li);
-      });
-    }
-
-    function toggle(index) {
-      checklistArray[index] = !checklistArray[index];
-      renderChecklist();
-      updateChecklist();
-    }
-
-    async function updateChecklist() {
-      const apiUrl = `https://api.github.com/gists/${GIST_ID}`;
-      const updatedContent = {
-        files: {
-          [GIST_FILENAME]: {
-            content: JSON.stringify({ checklist: checklistArray }, null, 2)
-          }
-        }
-      };
-
-      try {
-        const res = await fetch(apiUrl, {
-          method: 'PATCH',
-          headers: {
-            'Authorization': `Bearer ${GITHUB_TOKEN}`,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(updatedContent)
-        });
-
-        if (res.ok) {
-          console.log('Checklist berhasil diperbarui di Gist!');
-        } else {
-          const text = await res.text();
-          console.error('Gagal menyimpan ke Gist:', text);
-          alert('Gagal menyimpan ke Gist.');
-        }
-      } catch (err) {
-        console.error(err);
-        alert('Terjadi kesalahan saat menyimpan.');
-      }
-    }
-
-    loadChecklist();
-  </script>
+loadChecklist();
+</script>
 </body>
 </html>
