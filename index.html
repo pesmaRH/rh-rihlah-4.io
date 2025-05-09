@@ -100,8 +100,37 @@
   <h2>Berjuang dalam Sunyi, Bersinar dalam Ridha Ilahi</h2>
 
   <div class="rundown">
-    <!-- [Rundown content tetap seperti sebelumnya] -->
-    <!-- (dihilangkan di sini agar lebih fokus pada checklist JS) -->
+    <h3>📍 Lokasi: Gerbang Merapi<br>📅 17–18 Mei 2025<br>
+      👕 Dresscode: <br> - Baju putih & Sarung<br> - Jaket RH</h3>
+
+    <h4>Hari Sabtu – 17 Mei 2025</h4>
+    <div class="table-responsive">
+      <table>
+        <tr><th>Waktu</th><th>Kegiatan</th><th>Keterangan</th><th>PJ</th></tr>
+        <tr><td>15.00 – 15.30</td><td>Cek alat & logistik</td><td>Persiapan sebelum berangkat</td><td>Perkap</td></tr>
+        <tr><td>15.30 – 16.00</td><td>Keberangkatan</td><td>Dari asrama Pesma</td><td>Transport/Acara</td></tr>
+        <tr><td>16.00 – 17.00</td><td>Perjalanan</td><td>Menuju Gerbang Merapi</td><td>Acara</td></tr>
+        <tr><td>17.00 – 17.30</td><td>Mendirikan tenda</td><td>Nashbu al-Khiam</td><td>Perkap</td></tr>
+        <tr><td>17.30 – 18.30</td><td>Sholat Maghrib & Isya'</td><td>Berjamaah dijama'</td><td>—</td></tr>
+        <tr><td>18.30 – 19.00</td><td>Makan malam, Bebakaran</td><td>Bawa nasi, lauk panitia</td><td>Acara + Konsumsi</td></tr>
+        <tr><td>19.45 – 21.15</td><td>Saresehan</td><td>Laylatul Muhasabah</td><td>Acara</td></tr>
+        <tr><td>21.15 – 04.00</td><td>Istirahat</td><td>Isti’irahah</td><td>—</td></tr>
+      </table>
+    </div>
+
+    <h4>Hari Ahad – 18 Mei 2025</h4>
+    <div class="table-responsive">
+      <table>
+        <tr><th>Waktu</th><th>Kegiatan</th><th>Keterangan</th><th>PJ</th></tr>
+        <tr><td>04.00 – 04.30</td><td>Bangun & persiapan</td><td>Menjelang Subuh</td><td>Acara</td></tr>
+        <tr><td>04.30 – 05.25</td><td>Sholat Subuh & Halaqah</td><td>Berjamaah + Kultum</td><td>—</td></tr>
+        <tr><td>05.30 – 07.25</td><td>Jalan pagi & tadabbur alam (Syuruq Track) 🏞️</td><td>Dzikir alam & refleksi</td><td>Acara</td></tr>
+        <tr><td>07.30 – 08.00</td><td>Tajammu'</td><td>Sarapan ringan, Evaluasi & refleksi pagi</td><td>Konsumsi</td></tr>
+        <tr><td>08.00 – 08.30</td><td>Bersih-bersih & packing</td><td>Fardhu Kifayah Circle</td><td>Perkap</td></tr>
+        <tr><td>08.30 – 09.30</td><td>Perjalanan pulang & Distribusi Mushaf</td><td>Evaluasi selama perjalanan</td><td>Acara</td></tr>
+        <tr><td>Sebelum 11.00</td><td>Tiba di asrama</td><td>Sayonara & dokumentasi</td><td>PDD</td></tr>
+      </table>
+    </div>
   </div>
 
   <div class="checklist">
@@ -135,7 +164,7 @@
 
     function renderChecklist(type, items) {
       const ul = document.getElementById(`${type}-checklist`);
-      ul.innerHTML = ''; // Bersihkan isi sebelumnya
+      ul.innerHTML = '';
 
       items.forEach((item, index) => {
         const li = document.createElement('li');
@@ -146,12 +175,11 @@
         const isChecked = localStorage.getItem(key) === 'true';
 
         checkbox.checked = isChecked;
-        if (isChecked) {
-          li.classList.add('checked');
-        }
+        if (isChecked) li.classList.add('checked');
 
         li.appendChild(checkbox);
-        li.append(item);
+        li.append(document.createTextNode(item.item)); // << fixed here
+
         li.addEventListener('click', () => {
           checkbox.checked = !checkbox.checked;
           li.classList.toggle('checked');
